@@ -44,7 +44,7 @@
 ```json
 {
   "error": "Bad Request",
-  "mensaje": "La contraseña debe tener mínimo 8 caracteres, una mayúscula, un número y un carácter especial."
+  "mensaje": "La password debe tener mínimo 8 caracteres, una mayúscula, un número y un carácter especial."
 }
 ```
 
@@ -83,6 +83,6 @@
 ```json
 {
   "error": "Unauthorized",
-  "mensaje": "El correo o contraseña son incorrectos."
+  "mensaje": "El correo o password son incorrectos."
 }
 ```
