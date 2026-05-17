@@ -5,14 +5,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
-
 @Entity
 @Table(name = "usuarios")
 @Getter
 @Setter
 @NoArgsConstructor
-public class Usuario {
+public class Usuario extends EntidadBase{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,21 +28,18 @@ public class Usuario {
     @Column(nullable = false)
     private String password;
 
-    @Column(name = "fecha_alta", updatable = false)
-    private LocalDateTime fechaHoraAlta;
+    @ManyToOne
+    @JoinColumn(
+            name = "id_rol",
+            foreignKey = @ForeignKey(name = "fk_usuario_rol")
+    )
+    private RolUsuario rol;
 
-    @Column(name = "fecha_baja")
-    private LocalDateTime fechaHoraBaja;
-
-    @PrePersist
-    protected void onCreate(){
-        this.fechaHoraAlta = LocalDateTime.now();
-    }
-
-    public Usuario(String nombre, String apellido, String email, String password){
+    public Usuario(String nombre, String apellido, String email, String password, RolUsuario rol){
         this.nombre = nombre;
         this.apellido = apellido;
         this.email = email;
         this.password = password;
+        this.rol = rol;
     }
 }
