@@ -38,11 +38,20 @@ public class Producto extends EntidadBase{
     )
     private CategoriaProducto categoria;
 
-    public Producto(String nombre, BigDecimal precio, String descripcion, int stock, String urlImagen){
+    @ManyToOne
+    @JoinColumn(
+            name = "id_estado_producto",
+            foreignKey = @ForeignKey(name = "fk_estado_producto")
+    )
+    private EstadoProducto estado;
+
+    public Producto(String nombre, BigDecimal precio, String descripcion, int stock, String urlImagen, CategoriaProducto categoria, EstadoProducto estado){
         this.nombre = nombre;
         this.precio = precio;
         this.descripcion = descripcion;
         this.stock = stock;
         this.urlImagen = urlImagen;
+        this.categoria = categoria;
+        this.estado = estado;
     }
 }
