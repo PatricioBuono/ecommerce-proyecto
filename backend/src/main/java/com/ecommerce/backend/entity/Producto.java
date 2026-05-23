@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Entity
 @Table(name = "productos")
@@ -44,6 +45,9 @@ public class Producto extends EntidadBase{
             foreignKey = @ForeignKey(name = "fk_estado_producto")
     )
     private EstadoProducto estado;
+
+    @OneToMany(mappedBy = "producto")
+    private List<OrdenCompraProducto> historialVentas;
 
     public Producto(String nombre, BigDecimal precio, String descripcion, int stock, String urlImagen, CategoriaProducto categoria, EstadoProducto estado){
         this.nombre = nombre;

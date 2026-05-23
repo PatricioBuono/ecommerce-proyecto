@@ -7,6 +7,7 @@ import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "ordenes_de_compra")
@@ -37,17 +38,23 @@ public class OrdenCompra {
 
     @ManyToOne(optional = false)
     @JoinColumn(
-            name = "id_estado_orden",
-            foreignKey = @ForeignKey(name = "fk_estado_orden")
+            name = "id_estado_actual",
+            foreignKey = @ForeignKey(name = "fk_estado_actual")
     )
-    private EstadoOrdenCompra estado;
+    private EstadoOrdenCompra estadoActual;
+
+    @OneToMany(mappedBy = "orden")
+    private List<OrdenCompraEstado> historialEstados;
+
+    @OneToMany(mappedBy = "orden")
+    private List<OrdenCompraProducto> ordenProductos;
 
     public OrdenCompra(
-            LocalDateTime fechaHoraInicio, BigDecimal montoTotal, Usuario usuario, EstadoOrdenCompra estado
+           BigDecimal montoTotal, Usuario usuario, EstadoOrdenCompra estadoActual
     ){
         this.fechaHoraInicio = LocalDateTime.now();
         this.montoTotal = montoTotal;
         this.usuario = usuario;
-        this.estado = estado;
+        this.estadoActual = estadoActual;
     }
 }
