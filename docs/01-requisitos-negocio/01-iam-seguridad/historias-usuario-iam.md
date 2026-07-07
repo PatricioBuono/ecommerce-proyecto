@@ -6,9 +6,10 @@
 
    **Criterios de Aceptación:**
    - Validación de Email: El sistema debe verificar que el email ingresado no exista ya en la base de datos. Si existe, debe mostrar un mensaje: "Este correo ya está registrado".
+   - Formato de Email: El sistema debe validar que el email ingresado tenga una estructura de correo electrónico válida (ej: usuario@dominio.com).
    - Política de contraseñas: El formulario debe validar que la contraseña tenga como mínimo 8 caracteres, al menos una letra mayúscula, un número y un carácter especial. Si no cumple, el botón de registro debe estar deshabilitado o mostrar un error de formato.
-   - Seguridad (Backend): La contraseña no debe guardarse en texto plano en la base de datos (se debe encriptar usando un algoritmo como BCrypt en Spring Boot). 
-   - Asignación de Rol: Al crearse exitosamente, el sistema debe asignarle por defecto el rol de "CLIENTE" a este nuevo usuario.
+   - Asignación de Rol: Al crearse exitosamente, el sistema debe asignarle por defecto el rol de "CLIENTE" a este nuevo usuario, aislando la lógica en el backend por seguridad. 
+   - Nota técnica MVP: La encriptación de contraseñas con BCrypt queda fuera del alcance de esta iteración inicial y será abordada en la integración global del módulo de Seguridad.
 
 ### 2. **Inicio y Persistencia de Sesión (Login)**
 

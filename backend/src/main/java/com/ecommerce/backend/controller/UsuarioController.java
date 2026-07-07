@@ -1,5 +1,8 @@
 package com.ecommerce.backend.controller;
 
+import com.ecommerce.backend.dto.UsuarioLoginRequestDTO;
+import com.ecommerce.backend.dto.UsuarioLoginResponseDTO;
+import com.ecommerce.backend.dto.UsuarioRegistroResponseDTO;
 import com.ecommerce.backend.entity.Usuario;
 import com.ecommerce.backend.service.UsuarioService;
 import lombok.RequiredArgsConstructor;
@@ -20,12 +23,22 @@ public class UsuarioController {
     @PostMapping("/registro")
     public ResponseEntity<?> registrarNuevoUsuario(@RequestBody Usuario usuario){
         try{
-            Usuario usuarioGuardado = usuarioService.registrarUsuario(usuario);
+            UsuarioRegistroResponseDTO usuarioGuardado = usuarioService.registrarUsuario(usuario);
 
             return ResponseEntity.status(HttpStatus.CREATED).body(usuarioGuardado);
 
         } catch(IllegalArgumentException e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
 
+    @PostMapping("/login")
+    public ResponseEntity<?> iniciarSesion(@RequestBody UsuarioLoginRequestDTO loginRequest){
+        try{
+            UsuarioLoginResponseDTO respuesta = usuarioService.iniciarSesion(loginRequest);
+
+            return ResponseEntity.ok(respuesta);
+        } catch(IllegalArgumentException e){
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
