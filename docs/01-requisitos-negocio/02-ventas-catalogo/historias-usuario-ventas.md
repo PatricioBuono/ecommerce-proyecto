@@ -3,6 +3,7 @@
 ### 1. **Catálogo General**
 
 **Historia de Usuario:** Como comprador, quiero ver una lista de los productos disponibles con su imagen, nombre y precio, para poder explorar la tienda y decidir qué comprar.
+
 **Criterios de Aceptación:**
 - El sistema debe mostrar los productos en la pantalla principal en formato de grilla o lista. 
 - Cada tarjeta de producto debe mostrar obligatoriamente: Foto (si la tiene), Título y Precio.
