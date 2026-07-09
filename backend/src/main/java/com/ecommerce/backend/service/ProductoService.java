@@ -1,6 +1,7 @@
 package com.ecommerce.backend.service;
 
 import com.ecommerce.backend.dto.ProductoCatalogoResponseDTO;
+import com.ecommerce.backend.dto.ProductoDetalleResponseDTO;
 import com.ecommerce.backend.entity.Producto;
 import com.ecommerce.backend.repository.ProductoRepository;
 import lombok.RequiredArgsConstructor;
@@ -28,5 +29,29 @@ public class ProductoService {
                         producto.getStock()
                 ))
                 .collect(Collectors.toList());
+    }
+
+    public ProductoDetalleResponseDTO obtenerDetalleProducto(Long id){
+
+        Producto productoEncontrado = productoRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("El producto solicitado no existe o ya no está disponible."));
+
+        ProductoDetalleResponseDTO.CategoriaInfo categoriaInfo = null;
+        if(productoEncontrado.getCategoria() != null){
+            categoriaInfo = new ProductoDetalleResponseDTO.CategoriaInfo(
+                    productoEncontrado.getCategoria().getId(),
+                    productoEncontrado.getCategoria().getNombre()
+            );
+        }
+
+        return new ProductoDetalleResponseDTO(
+                productoEncontrado.getId(),
+                productoEncontrado.getNombre(),
+                productoEncontrado.getPrecio(),
+                productoEncontrado.getDescripcion(),
+                categoriaInfo,
+                productoEncontrado.getUrlImagen(),
+                productoEncontrado.getStock()
+        );
     }
 }
