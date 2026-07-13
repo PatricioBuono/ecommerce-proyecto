@@ -46,7 +46,7 @@ public class OrdenCompra {
     @OneToMany(mappedBy = "orden")
     private List<OrdenCompraEstado> historialEstados;
 
-    @OneToMany(mappedBy = "orden")
+    @OneToMany(mappedBy = "orden", cascade = CascadeType.ALL)
     private List<OrdenCompraProducto> ordenProductos;
 
     public OrdenCompra(

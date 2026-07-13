@@ -58,4 +58,6 @@ public class Producto extends EntidadBase{
         this.categoria = categoria;
         this.estado = estado;
     }
+
+
 }
