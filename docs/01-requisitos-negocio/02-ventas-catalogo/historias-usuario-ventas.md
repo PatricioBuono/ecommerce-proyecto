@@ -18,7 +18,7 @@
 - Esta vista debe mostrar la información completa obtenida de la base de datos: Imagen, Título, Precio, Descripción completa, Categoría y Cantidad de Stock actual. 
 - Si el stock es 0, se debe mostrar un indicador visual de "Agotado".
 
-### 3. **Gestión del Carrito**
+### 3. **Gestión del Carrito (ÉPICA - frontend)**
 
 **Historia de Usuario:** Como comprador, quiero poder agregar productos al carrito y visualizar un panel lateral con el resumen de mi selección, para llevar un control de lo que voy a comprar y el monto total.
 
@@ -30,9 +30,9 @@
 - Eliminar ítems: El usuario debe tener la opción de eliminar un producto completo del carrito o reducir su cantidad a cero desde el panel lateral. 
 - Si no se hace la compra en el momento, debe quedar guardado el carrito con los productos seleccionados (pero no se descuenta del stock hasta que no se compre - Local Storage).
 
-### 4. **Confirmación de Compra (Checkout Simulado)**
+### 4. **Confirmación de Compra (Checkout Simulado) - ÉPICA -**
 
-**Historia de Usuario:** Como comprador con artículos en el carrito, quiero confirmar mi compra para generar mi pedido, asegurar los productos y vaciar mi carrito.
+**Épica:** Como comprador con artículos en el carrito, quiero confirmar mi compra para generar mi pedido, asegurar los productos y vaciar mi carrito.
 
 **Criterios de Aceptación:**
 - Botón de Acción: El panel del carrito (off-canvas) debe tener un botón de "Confirmar Compra" (solo habilitado si hay productos en el carrito y el usuario está logueado). 
@@ -41,4 +41,27 @@
 - Actualización de Inventario: El sistema debe descontar automáticamente del stock general las cantidades compradas de cada producto. 
 - Limpieza de Sesión: Una vez que la transacción en la base de datos es exitosa, el carrito del usuario debe quedar completamente vacío. 
 - Feedback Visual: Se debe mostrar un mensaje claro en el frontend (ej. un toast o alerta) indicando: "Compra realizada con éxito".
+
+### 4.1. **API de Procesamiento de Checkout**
+
+**Historia de Usuario:** Como sistema, necesito recibir el resumen de la compra, validar el stock y persistir la orden de forma transaccional para garantizar la integridad de los datos y el historial de precios.
+
+**Criterios de Aceptación:**
+- Endpoint: Implementar POST /api/ordenCompra.
+- Seguridad y Cálculo: El sistema debe calcular el monto total consultando los precios históricos en la base de datos, ignorando cualquier precio enviado desde el cliente.
+- Transaccionalidad: Si un solo producto de la lista no tiene stock suficiente, se debe cancelar toda la operación (Rollback) y devolver un error 400 Bad Request.
+- Persistencia Inmutable: Se debe guardar la orden con estado "COMPLETADA" y sus detalles vinculados, congelando el precio y cantidad exacta al momento de la compra.
+- Actualización de Inventario: Se debe descontar del stock general de cada producto la cantidad adquirida.
+- Respuesta: Devolver HTTP 201 Created con el ID de la orden, el monto total calculado y el estado.
+
+### 4.2. **UI de Confirmación de Compra**
+
+**Historia de Usuario:** Como comprador, quiero enviar mi carrito al servidor y ver un mensaje de éxito para tener la confirmación de que mi pedido fue procesado.
+
+**Criterios de Aceptación:**
+- Botón de Acción: El panel lateral del carrito debe tener el botón "Confirmar Compra", habilitado solo si el carrito tiene ítems y el usuario está autenticado.
+- Integración: Al hacer clic, enviar la petición POST al endpoint /api/ordenCompra enviando únicamente los IDs y cantidades.
+- Limpieza (Local Storage): Si el servidor responde con éxito (201), el carrito debe vaciarse automáticamente borrando los datos de la memoria del navegador.
+- Feedback Visual: Mostrar un mensaje claro al usuario (ej. toast) con el ID de su orden y redirigirlo o cerrar el panel.
+- Manejo de Errores: Si el servidor devuelve un error 400 por falta de stock, mostrar la alerta correspondiente al usuario sin borrar su carrito.
 
