@@ -16,7 +16,7 @@
             <p class="card-text text-muted mb-4">Stock disponible: {{ producto.stock }}</p>
             
             <!-- El botón lo tiramos hacia abajo con mt-auto -->
-            <button class="btn btn-primary mt-auto">
+            <button class="btn btn-primary mt-auto" (click)="agregarAlCarrito(producto)">
               Agregar al carrito
             </button>
           </div>

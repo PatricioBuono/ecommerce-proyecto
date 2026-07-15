@@ -1,6 +1,7 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { ProductoService} from '../../core/services/producto';
 import { Producto } from '../../core/models/producto';
+import { CarritoService } from '../../core/services/carrito';
 
 @Component({
   selector: 'app-home',
@@ -15,7 +16,8 @@ export class Home implements OnInit {
 
   constructor(
     private productoService: ProductoService,
-    private changeDetectorRef: ChangeDetectorRef
+    private changeDetectorRef: ChangeDetectorRef,
+    private carritoService: CarritoService
   ){}
 
   ngOnInit(): void{
@@ -33,6 +35,10 @@ export class Home implements OnInit {
         console.error('Ocurrió un error al cargar los productos:', error);
       }
     });
+  }
+
+  agregarAlCarrito(productoElegido: Producto): void{
+    this.carritoService.agregarProducto(productoElegido);
   }
 
 }
