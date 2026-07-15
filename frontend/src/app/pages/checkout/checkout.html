@@ -1,1 +1,75 @@
-<p>checkout works!</p>
+<div class="container mt-4">
+    <h2 class="mb-4">Resumen de tu compra</h2>
+
+    @if (items.length === 0) {
+        <div class="alert alert-info text-center">
+            Tu carrito está vacío. ¡Volvé al catálogo para agregar productos!
+        </div>
+    } @else {
+        <div class="table-responsive">
+            <table class="table table-hover align-middle">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Producto</th>
+                        <th class="text-center">Cantidad</th>
+                        <th class="text-end">Precio Unitario</th>
+                        <th class="text-end">Subtotal</th>
+                        <th class="text-center">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (item of items; track item.producto.id) {
+                        <tr>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <img [src]="item.producto.imagenUrl" alt="{{ item.producto.titulo }}" 
+                                         style="width: 50px; height: 50px; object-fit: cover;" 
+                                         class="me-3 rounded shadow-sm">
+                                    <span class="fw-semibold">{{ item.producto.titulo }}</span>
+                                </div>
+                            </td>
+
+                            <td class="text-center">
+                                <div class="d-flex justify-content-center align-items-center gap-2">
+                                    <button class="btn btn-sm btn-outline-secondary px-2" 
+                                            (click)="disminuirCantidad(item)" 
+                                            [disabled]="item.cantidad === 1">
+                                        <i class="bi bi-dash fw-bold">-</i>
+                                    </button>
+                                    
+                                    <span class="fs-5" style="min-width: 30px;">{{ item.cantidad }}</span>
+                                    
+                                    <button class="btn btn-sm btn-outline-secondary px-2" 
+                                            (click)="aumentarCantidad(item)">
+                                        <i class="bi bi-plus fw-bold">+</i>
+                                    </button>
+                                </div>
+                            </td>
+
+                            <td class="text-end">{{ item.producto.precio | currency }}</td>
+                            <td class="text-end fw-bold">{{ item.producto.precio * item.cantidad | currency }}</td> 
+                            
+                            <td class="text-center">
+                                <button class="btn btn-sm btn-danger" (click)="eliminarItem(item.producto.id)">
+                                    Eliminar
+                                </button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="3" class="text-end fs-5">Total a pagar:</td>
+                        <td class="text-end fs-5 text-success"><strong>{{ totalCompra | currency }}</strong></td>
+                        <td></td> <!-- Celda vacía para alinear bajo "Acciones" -->
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+        <div>
+            <div class="d-flex justify-content-end mt-3">
+                <button class="btn btn-success btn-lg shadow">Confirmar compra</button>
+            </div>
+        </div>
+    }
+</div>
