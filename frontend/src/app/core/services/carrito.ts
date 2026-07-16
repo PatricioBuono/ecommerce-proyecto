@@ -62,4 +62,10 @@ export class CarritoService {
             }
         }
     }
+
+    vaciarCarrito(): void{
+        this.items = [];
+        this.actualizarContador();
+    }
+    
 }
