@@ -1,0 +1,72 @@
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
+           <div class="card shadow-sm">
+                <div class="card-body p-4">
+                    <h2 class="text-center mb-4">Creá tu cuenta</h2>
+
+                    <form (ngSubmit)="registrarUsuario()">
+
+                        <!-- Nombre -->
+                        <div class="mb-3">
+                            <label for="nombre" class="form-label">Nombre</label>
+                            <input 
+                                type="text" 
+                                id="nombre" 
+                                name="nombre" 
+                                class="form-control" 
+                                [class.is-invalid]="errores.nombre"
+                                [(ngModel)]="registroUsuario.nombre"
+                            >
+                            <div class="invalid-feedback">{{errores.nombre}}</div>
+                        </div>
+
+                        <!-- Apellido -->
+                        <div class="mb-3">
+                            <label for="apellido" class="form-label">Apellido</label>
+                            <input 
+                                type="text" 
+                                id="apellido" 
+                                name="apellido" 
+                                class="form-control" 
+                                [class.is-invalid]="errores.apellido"
+                                [(ngModel)]="registroUsuario.apellido"
+                            >
+                            <div class="invalid-feedback">{{errores.apellido}}</div>
+                        </div>
+
+                        <!-- Email -->
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email</label>
+                            <input 
+                                type="email" 
+                                id="email" 
+                                name="email" 
+                                class="form-control" 
+                                [class.is-invalid]="errores.email"
+                                [(ngModel)]="registroUsuario.email"
+                            >
+                            <div class="invalid-feedback">{{errores.email}}</div>
+                        </div>
+
+                        <!-- Password -->
+                        <div class="mb-4">
+                            <label for="password" class="form-label">Contraseña</label>
+                            <input 
+                                type="password" 
+                                id="password" 
+                                name="password" 
+                                class="form-control" 
+                                [class.is-invalid]="errores.password"
+                                [(ngModel)]="registroUsuario.password"
+                            >
+                            <div class="invalid-feedback ">{{errores.password}}</div>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary w-100">Registrarme</button>
+                    </form>
+                </div>
+           </div> 
+        </div>
+    </div>
+</div>
