@@ -5,6 +5,7 @@ import com.ecommerce.backend.dto.UsuarioLoginResponseDTO;
 import com.ecommerce.backend.dto.UsuarioRegistroResponseDTO;
 import com.ecommerce.backend.entity.RolUsuario;
 import com.ecommerce.backend.entity.Usuario;
+import com.ecommerce.backend.exception.ValidationException;
 import com.ecommerce.backend.repository.RolUsuarioRepository;
 import com.ecommerce.backend.repository.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
@@ -46,14 +47,14 @@ public class UsuarioService {
 
     public UsuarioLoginResponseDTO iniciarSesion(UsuarioLoginRequestDTO loginUsuario){
         // el metodo iniciarSesion debe ser del tipo token que devuelve TokenJWTResponseDTO
-        validarCampoTexto(loginUsuario.getEmail(), "Credenciales incorrectas.");
-        validarCampoTexto(loginUsuario.getPassword(), "Credenciales incorrectas.");
+        validarCampoTexto(loginUsuario.getEmail(), "email", "Credenciales incorrectas.");
+        validarCampoTexto(loginUsuario.getPassword(), "password", "Credenciales incorrectas.");
 
         Usuario usuarioEncontrado = usuarioRepository.findByEmail(loginUsuario.getEmail())
-                .orElseThrow(() -> new IllegalArgumentException("Credenciales incorrectas."));
+                .orElseThrow(() -> new ValidationException("email", "Credenciales incorrectas."));
 
         if(!usuarioEncontrado.getPassword().equals(loginUsuario.getPassword())){
-            throw new IllegalArgumentException("Credenciales incorrectas");
+            throw new ValidationException("password", "Credenciales incorrectas");
         }
 
         UsuarioLoginResponseDTO.UsuarioInfo userInfo = new UsuarioLoginResponseDTO.UsuarioInfo(
@@ -67,30 +68,42 @@ public class UsuarioService {
     }
 
     private void validarEstructuraRegistro(Usuario usuario){
-        validarCampoTexto(usuario.getNombre(), "El nombre es obligatorio.");
-        validarCampoTexto(usuario.getApellido(), "El apellido es obligatorio.");
-        validarCampoTexto(usuario.getEmail(), "El correo electrónico es obligatorio.");
-        validarCampoTexto(usuario.getPassword(), "La contraseña es obligatoria.");
+        validarCampoTexto(usuario.getNombre(), "nombre", "El nombre es obligatorio.");
+        validarCampoTexto(usuario.getApellido(), "apellido", "El apellido es obligatorio.");
+        validarCampoTexto(usuario.getEmail(), "email", "El correo electrónico es obligatorio.");
+        validarCampoTexto(usuario.getPassword(), "password", "La contraseña es obligatoria.");
 
         if(usuarioRepository.existsByEmail(usuario.getEmail())){
-            throw new IllegalArgumentException("El email ya se encuentra registrado en el sistema.");
+            throw new ValidationException(
+                    "email",
+                    "El email ya se encuentra registrado en el sistema."
+            );
         }
         if(!usuario.getEmail().matches(regexEmail)){
-            throw new IllegalArgumentException("El formato de correo electrónico no es válido.");
+            throw new ValidationException(
+                    "email",
+                    "El formato de correo electrónico no es válido."
+            );
         }
 
         String passwordPlana = usuario.getPassword();
         if(passwordPlana.length() < 8){
-            throw new IllegalArgumentException("La contraseña debe tener al menos 8 caracteres.");
+            throw new ValidationException(
+                    "password",
+                    "La contraseña debe tener al menos 8 caracteres."
+            );
         }
         if(!passwordPlana.matches(regex)){
-            throw new IllegalArgumentException("La contraseña debe contener al menos una letra mayúscula, un número y un carácter especial.");
+            throw new ValidationException(
+                    "password",
+                    "La contraseña debe contener al menos una letra mayúscula, un número y un carácter especial."
+            );
         }
     }
 
-    private void validarCampoTexto(String texto, String mensajeError){
+    private void validarCampoTexto(String texto,String campo, String mensajeError){
         if(texto == null || texto.trim().isEmpty()){
-            throw new IllegalArgumentException(mensajeError);
+            throw new ValidationException(campo, mensajeError);
         }
     }
 }

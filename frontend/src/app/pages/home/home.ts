@@ -1,7 +1,7 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
-import { ProductoService} from '../../core/services/producto';
+import { ProductoService} from '../../core/services/producto-service';
 import { Producto } from '../../core/models/producto';
-import { CarritoService } from '../../core/services/carrito';
+import { CarritoService } from '../../core/services/carrito-service';
 
 @Component({
   selector: 'app-home',
