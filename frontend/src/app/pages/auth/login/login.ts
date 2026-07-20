@@ -38,9 +38,8 @@ export class Login {
         this.usuarioService.iniciarSesion(this.inicioSesion).subscribe({
             next: (response) => {
                 console.log('Login exitoso', response);
-
-                // TODO: Acá más adelante vamos a guardar el "response.token" 
-                // para mantener la sesión abierta. Por ahora solo redirigimos.
+                localStorage.setItem('token', response.token);
+                localStorage.setItem('usuario', JSON.stringify(response.usuario));
 
                 this.router.navigate(['/']);
             },
@@ -61,5 +60,5 @@ export class Login {
                 }
             }
         });
-    }
+    }  
 }
