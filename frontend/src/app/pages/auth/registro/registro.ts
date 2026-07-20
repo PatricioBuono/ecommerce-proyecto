@@ -4,11 +4,12 @@ import { FormsModule } from '@angular/forms';
 import { UsuarioRegistroRequestDTO } from '../../../core/models/usuario-registro-request';
 import { UsuarioService } from '../../../core/services/usuario-service';
 import { ErrorResponse } from '../../../core/models/error-response';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-registro',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule, RouterModule],
   templateUrl: './registro.html',
   styleUrls: ['./registro.css']
 })  
