@@ -8,6 +8,7 @@ import com.ecommerce.backend.entity.Usuario;
 import com.ecommerce.backend.exception.ValidationException;
 import com.ecommerce.backend.repository.RolUsuarioRepository;
 import com.ecommerce.backend.repository.UsuarioRepository;
+import com.ecommerce.backend.security.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +22,7 @@ public class UsuarioService {
     private final RolUsuarioRepository rolUsuarioRepository;
     private final String regexEmail = "^[A-Za-z0-9._+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}$";
     private final String regex = "^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*\\-_.]).+$";
+    private final JwtUtil jwtUtil;
 
     public UsuarioRegistroResponseDTO registrarUsuario(Usuario nuevoUsuario){
 
@@ -57,6 +59,11 @@ public class UsuarioService {
             throw new ValidationException("password", "Credenciales incorrectas");
         }
 
+        String tokenGenerado = jwtUtil.generarToken(
+                usuarioEncontrado.getEmail(),
+                usuarioEncontrado.getRol().getNombre()
+        );
+
         UsuarioLoginResponseDTO.UsuarioInfo userInfo = new UsuarioLoginResponseDTO.UsuarioInfo(
                 usuarioEncontrado.getId(),
                 usuarioEncontrado.getNombre(),
@@ -64,7 +71,7 @@ public class UsuarioService {
                 usuarioEncontrado.getRol().getNombre()
         );
 
-        return new UsuarioLoginResponseDTO("Login exitoso", "TOKEN", userInfo);
+        return new UsuarioLoginResponseDTO("Login exitoso", tokenGenerado, userInfo);
     }
 
     private void validarEstructuraRegistro(Usuario usuario){
