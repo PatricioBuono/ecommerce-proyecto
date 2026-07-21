@@ -21,4 +21,21 @@
    - Persistencia en el Navegador: El frontend (React) debe guardar este Token (por ejemplo, en el localStorage o en una cookie segura) para que el usuario no tenga que volver a loguearse al recargar la página.
    - Redirección: Al loguearse con éxito, el sistema debe redirigir al usuario al Catálogo Principal.
 
+### 3. **Cierre de Sesión (Logout)** 
+
+   **Historia de Usuario:** Como usuario autenticado, quiero poder cerrar mi sesión para proteger mi privacidad y evitar que otros accedan a mi cuenta desde este dispositivo.
+
+   **Criterios de Aceptación:**
+   - Dado que un usuario tiene una sesión activa, cuando hace clic en el botón "Cerrar sesión", entonces el sistema debe eliminar el token y el usuario del almacenamiento local (Local Storage).
+   - Dado que el usuario cerró su sesión, entonces el sistema debe redirigirlo automáticamente a la pantalla de inicio de sesión.
+   - Dado que el usuario cerró su sesión e intenta navegar hacia atrás, entonces no debe poder realizar acciones que requieran autenticación.
+
+### 4. **Barra de Navegación Dinámica**
+
+   **Historia de Usuario:** Como usuario, quiero que la barra de navegación refleje mi estado de sesión (logueado o no logueado) para saber rápidamente si estoy navegando con mi cuenta activa o como invitado.
+
+   **Criterios de Aceptación:** 
+   - Dado que un usuario visitante (no autenticado) ingresa a la aplicación, entonces la barra de navegación debe mostrar las opciones "Iniciar sesión" y "Crear cuenta".
+   - Dado que un usuario inicia sesión exitosamente, entonces la barra de navegación debe actualizarse en tiempo real, ocultando los botones de acceso y mostrando el mensaje "¡Hola, [Nombre del Usuario]!".
+   - Dado que un usuario autenticado está navegando, entonces la barra de navegación debe mantener visible el botón de "Cerrar sesión" en todo momento.
 

@@ -15,12 +15,21 @@
         <li class="nav-item">
           <a class="nav-link" routerLink="/checkout">Carrito ({{ cantidad$ | async }})</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/auth/registro">Creá tu cuenta</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/auth/login">Iniciar Sesión</a>
-        </li>
+        
+        @if (usuarioService.usuario$ | async; as user) {
+            <!-- ESTO SE MUESTRA SI ESTÁ LOGUEADO -->
+            <li class="nav-item d-flex align-items-center ms-3">
+                <span class="me-3 text-light fw-bold">¡Hola, {{ user.nombre }}!</span>
+                <button class="btn btn-outline-danger btn-sm" (click)="logout()">Cerrar sesión</button>
+            </li>
+        } @else {
+            <!-- ESTO SE MUESTRA SI NO ESTÁ LOGUEADO -->
+            <li class="nav-item d-flex ms-3">
+                <a class="btn btn-outline-light me-2" routerLink="/auth/login">Iniciar Sesión</a>
+                <a class="btn btn-primary" routerLink="/auth/registro">Crear Cuenta</a>
+            </li>
+        }
+
       </ul>
     </div>
     
