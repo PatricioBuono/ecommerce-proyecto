@@ -65,3 +65,19 @@
 - Feedback Visual: Mostrar un mensaje claro al usuario (ej. toast) con el ID de su orden y redirigirlo o cerrar el panel.
 - Manejo de Errores: Si el servidor devuelve un error 400 por falta de stock, mostrar la alerta correspondiente al usuario sin borrar su carrito.
 
+### 5. **Carrito de Compras para Visitantes**
+
+**Historia de Usuario:** Como usuario visitante (no autenticado), quiero poder agregar productos al carrito y que se guarden en mi navegador, para no perder mi selección mientras sigo navegando por el catálogo.
+
+**Criterios de Aceptación:**
+- Dado que un usuario no tiene sesión iniciada, cuando hace clic en "Agregar al carrito", entonces el producto y su cantidad deben guardarse en la memoria del navegador (Local Storage).
+- Dado que un usuario visitante tiene productos en su carrito local, cuando recarga la página o cierra y vuelve a abrir la pestaña, entonces el carrito debe mantener los productos seleccionados.
+
+### 6. **Fusión de Carrito al Autenticarse**
+
+**Historia de Usuario:** Como usuario que preseleccionó productos siendo visitante, quiero que estos se sumen automáticamente a mi cuenta al iniciar sesión o registrarme, para poder finalizar mi compra sin tener que volver a buscarlos.
+
+**Criterios de Aceptación:**
+- Fusión en Login: Dado que el visitante tiene productos en el carrito local, cuando inicia sesión exitosamente, entonces el sistema debe enviar esos productos al backend y sumarlos a los productos que el usuario ya pudiera tener guardados en su cuenta.
+- Fusión en Registro: Dado que el visitante tiene productos en el carrito local, cuando crea una cuenta nueva, entonces el sistema debe crear su carrito en la base de datos con esos productos.
+- Limpieza: Dado que el backend confirmó la fusión o creación del carrito exitosamente, cuando el sistema recibe la respuesta de éxito, entonces se debe borrar el carrito temporal del local storage.
